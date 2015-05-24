@@ -1,0 +1,28 @@
+---
+- name: vim - make sure bundle directory exists
+  file:
+    path: "{{ deploy_user_dir }}/.vim/bundle"
+    state: directory
+    mode: 0755
+    owner: "{{ deploy_user }}"
+
+- name: vim - checkout vundle repo
+  git:
+    repo: https://github.com/gmarik/vundle.vim.git
+    dest: "{{ deploy_user_dir }}/.vim/bundle/vundle"
+
+# .vimrc.bundles
+- name: Copy vimrc file
+  template: 
+    src: vimrc 
+    dest: "{{ deploy_user_dir }}/.vimrc"
+    owner: "{{ deploy_user }}"
+
+- name: Copy vimrc.bundles file
+  template: 
+    src: vimrc.bundles
+    dest: "{{ deploy_user_dir }}/.vimrc.bundles"
+    owner: "{{ deploy_user }}"
+
+- name: vim - run bundle install
+  command: vim +silent +BundleInstall +qall

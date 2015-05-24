@@ -1,0 +1,7 @@
+---
+galaxy_info:
+  author: Mark Wolfe
+  description: vim role for OSX and Linux
+ license: MIT
+  min_ansible_version: 1.2
+dependencies: []
