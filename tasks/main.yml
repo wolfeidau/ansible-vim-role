@@ -4,25 +4,34 @@
     path: "{{ deploy_user_dir }}/.vim/bundle"
     state: directory
     mode: 0755
-    owner: "{{ deploy_user }}"
+  sudo_user: "{{ deploy_user }}"
 
 - name: vim - checkout vundle repo
   git:
     repo: https://github.com/gmarik/vundle.vim.git
     dest: "{{ deploy_user_dir }}/.vim/bundle/vundle"
+  sudo_user: "{{ deploy_user }}"
 
 # .vimrc.bundles
 - name: Copy vimrc file
-  template: 
-    src: vimrc 
+  copy: 
+    src: vimrc.bootstrap
     dest: "{{ deploy_user_dir }}/.vimrc"
-    owner: "{{ deploy_user }}"
+  sudo_user: "{{ deploy_user }}"
 
 - name: Copy vimrc.bundles file
-  template: 
+  copy: 
     src: vimrc.bundles
     dest: "{{ deploy_user_dir }}/.vimrc.bundles"
-    owner: "{{ deploy_user }}"
+  sudo_user: "{{ deploy_user }}"
 
 - name: vim - run bundle install
   command: vim +silent +BundleInstall +qall
+  sudo_user: "{{ deploy_user }}"
+
+# .vimrc.bundles
+- name: Copy vimrc file
+  copy: 
+    src: vimrc 
+    dest: "{{ deploy_user_dir }}/.vimrc"
+  sudo_user: "{{ deploy_user }}"

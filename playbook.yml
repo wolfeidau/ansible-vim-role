@@ -1,0 +1,20 @@
+---
+- name: Test the vim role
+  hosts: all
+  sudo: yes
+  tasks:
+    - name: Add ubuntu user
+      user: name=ubuntu
+    - name: Generate locales
+      shell: locale-gen en_US en_US.UTF-8
+    - name: Update locale
+      shell: /usr/sbin/update-locale LANG=en_US LC_ALL=en_US.UTF-8
+    - name: install git 
+      apt: name={{ item }}
+      with_items:
+        - git
+        - vim
+    - include: "tasks/main.yml" 
+      vars:
+        deploy_user: ubuntu 
+        deploy_user_dir: /home/ubuntu
